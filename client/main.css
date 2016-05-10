@@ -1,5 +1,14 @@
 /* CSS declarations go here */
-
 body {
-  background: red;
+  background: white;
+  max-width:1600px;
+  margin:auto;
+}
+
+.ec-board {
+  border: 1px solid black;
+}
+
+.ec-main-body {
+  margin: auto;
 }

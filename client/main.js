@@ -1,22 +1,66 @@
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
-
+import { Mongo } from 'meteor/mongo';
 import './main.html';
 
-Template.hello.onCreated(function helloOnCreated() {
+c_hour = 0;
+
+Today = new Mongo.Collection( "today" );
+
+Template.main.onCreated( function helloOnCreated() {
   // counter starts at 0
-  this.counter = new ReactiveVar(0);
+  function setServerTime() {
+    //get server time (it's in milliseconds)
+    Meteor.call( "getServerTime", function( error, result ) {
+      Session.set( "serverTime", result );
+      Session.set( "today", dataAtualFormatada() );
+      Session.set( "tomorrow", dataAtualFormatada( 1 ) );
+      Session.set( "today_plus_2", dataAtualFormatada( 2 ) );
+      Session.set( "today_plus_3", dataAtualFormatada( 3 ) );
+    });
+    Meteor.call( "getCurrentHour", function( error, result ) {
+      Session.set( "cur_hour", result );
+    });
+  }
+  setServerTime();
+  setInterval( function updateServerTime() { setServerTime(); }, 1000);
 });
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
+Template.main.helpers({
+  // counter starts at 0
+  date_server: function() { return Session.get( "serverTime" ); },
+  today: function() { return Session.get( "today" ); },
+  tomorrow: function() { return Session.get( "tomorrow" ); },
+  today_plus_2: function() { return Session.get( "today_plus_2" ); },
+  today_plus_3: function() { return Session.get( "today_plus_3" ); },
+  cur_hour: function() { c_hour = Session.get( "cur_hour" ); return c_hour; },
+  todays: function() {
+    return Today.find( {}, {sort: {hour: 1}} );
+  }
 });
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
-});
+
+// Funções
+function dataAtualFormatada( plus = 0 ) {
+  var data = new Date( new Date().getTime() + plus*( 24 * 60 * 60 * 1000 ));
+  var dia = data.getDate();
+  if( dia.toString().length == 1 ) { dia = "0" + dia; }
+  var month = data.getMonth() + 1;
+  var mes;
+  switch( month ) {
+    case 1 : mes = "janeiro"; break;
+    case 2 : mes = "fevereiro"; break;
+    case 3 : mes = "março"; break;
+    case 4 : mes = "abril"; break;
+    case 5 : mes = "maio"; break;
+    case 6 : mes = "junho"; break;
+    case 7 : mes = "julho"; break;
+    case 8 : mes = "agosto"; break;
+    case 9 : mes = "setembro"; break;
+    case 10: mes = "outubro"; break;
+    case 11: mes = "novembro"; break;
+    case 12: mes = "dezembro"; break;
+  }
+  var ano = data.getFullYear();
+  return dia + " de " + mes + " de " + ano;
+}
+

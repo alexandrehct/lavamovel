@@ -1,25 +1,68 @@
 <head>
   <title>Lavamovel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
-  <h1>Nós somos do Clube Atlético Mineiro!!!</h1>
-
-  {{> hello}}
-  {{> info}}
+  {{> main}}
 </body>
 
-<template name="hello"> 
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
-
-<template name="info">
-  <h2>Learn Meteor!</h2>
-  <ul>
-    <li><a href="https://www.meteor.com/try">Do the Tutorial</a></li>
-    <li><a href="http://guide.meteor.com">Follow the Guide</a></li>
-    <li><a href="https://docs.meteor.com">Read the Docs</a></li>
-    <li><a href="https://forums.meteor.com">Discussions</a></li>
-  </ul>
+<template name="main">
+  <div class="container-fluid ec-main-body">
+    <div class="row">
+      <div class="col-sm-12">
+        LOGO<br>
+        SERVER DATE: {{date_server}}<br>
+        {{> loginButtons}}
+        <div class="row">
+          <div class="col-xs-12 col-sm-2 ec-board">
+            <button>
+              Lavar Agora
+            </button>
+            <button>
+              Agendar
+            </button>
+            <div>
+              Mini-Calendário
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 ec-board">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ec-board">
+                <h4>{{today}}</h4>
+                {{#each todays}}
+                  <div style="display:{{display}}"><hr>{{hour}}:00</div> 
+                {{/each}}
+                <hr>
+              </div>
+              <div class="clearfix visible-xs-block"></div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ec-board">
+                <h4>{{tomorrow}}</h4>
+                {{#each todays}}
+                  <div style="display:block"><hr>{{hour}}:00</div> 
+                {{/each}}
+                <hr>
+              </div>
+              <div class="clearfix visible-xs-block"></div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ec-board">
+                <h4>{{today_plus_2}}</h4>
+                {{#each todays}}
+                  <div style="display:block"><hr>{{hour}}:00</div> 
+                {{/each}}
+                <hr>
+              </div>
+              <div class="clearfix visible-xs-block"></div>
+              <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 ec-board">
+                <h4>{{today_plus_3}}</h4>
+                {{#each todays}}
+                  <div style="display:block"><hr>{{hour}}:00</div> 
+                {{/each}}
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
