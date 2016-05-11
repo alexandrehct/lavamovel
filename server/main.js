@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
 Today = new Mongo.Collection( "today" );
+Schedule = new Mongo.Collection( "schedule" );
 
 Meteor.startup(() => {
   // code to run on server at startup
@@ -17,11 +18,9 @@ Meteor.methods({
   getCurrentHour: function() { return new Date().getHours(); }
 });
 
-
 SyncedCron.add({
   name: 'Update Today Tags',
   schedule: function( parser ) {
-    // parser is a later.parse object
     return parser.text('every 1 minute');
   },
   job: function() {

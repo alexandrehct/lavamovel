@@ -1,10 +1,13 @@
 import { Template } from 'meteor/templating';
 import { Mongo } from 'meteor/mongo';
 import './main.html';
+import './templates/LavarAgora.html';
+import './templates/AgendarHorario.html';
 
 c_hour = 0;
 
 Today = new Mongo.Collection( "today" );
+Schedule = new Mongo.Collection( "schedule" );
 
 Template.main.onCreated( function helloOnCreated() {
   // counter starts at 0
@@ -26,7 +29,6 @@ Template.main.onCreated( function helloOnCreated() {
 });
 
 Template.main.helpers({
-  // counter starts at 0
   date_server: function() { return Session.get( "serverTime" ); },
   today: function() { return Session.get( "today" ); },
   tomorrow: function() { return Session.get( "tomorrow" ); },
@@ -36,6 +38,28 @@ Template.main.helpers({
   todays: function() {
     return Today.find( {}, {sort: {hour: 1}} );
   }
+});
+
+Template.main.events({
+  'click #ec-lavar-agora': function() {
+    BootstrapModalPrompt.prompt({
+      dialogTemplate: Template.LavarAgora
+    });
+  },
+  'click .ec-no-link': ()=> {
+    console.log( "clicked on " + this._id );
+    BootstrapModalPrompt.prompt({
+      dialogTemplate: Template.AgendarHorario
+    });
+  }
+});
+
+Template.LavarAgora.events({
+  'click #ec-lavar-agora-continuar-1': function() {
+    BootstrapModalPrompt.prompt({
+      dialogTemplate: Template.LavarAgora2
+    });
+  }  
 });
 
 

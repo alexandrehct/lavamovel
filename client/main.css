@@ -12,3 +12,30 @@ body {
 .ec-main-body {
   margin: auto;
 }
+
+.ec-box-content {
+  position: absolute;
+  left: 56px;
+}
+
+.ec-main-buttons {
+  text-align:center;
+}
+
+.ec-hour-box {
+  background: lightgreen;
+  margin-top: -16pt;
+  padding-left: 6px;
+  line-height: 4pt;
+}
+
+.ec-no-link {
+  text-decoration:none;
+  color: black;
+}
+
+.ec-no-link:hover {
+  text-decoration:none;
+  cursor: pointer;
+  color: #333;
+}
